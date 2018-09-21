@@ -5,9 +5,9 @@
 有人講過,想要知自己識幾多,最好既方法就係將你知既所有野都講番一次出泥,也許,寫這個github也會幫助學習吧!!
 
 CTF目錄:
--Web security
--Reverse Engineering
--Pwn
--Forensic
--Cryptography
--Programming
+-   Web security
+-   Reverse Engineering
+-   Pwn
+-   Forensic
+-   Cryptography
+-   Programming
