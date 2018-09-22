@@ -23,12 +23,13 @@
 簡單來說,就是以command line作為browser,再連接到人家的WEB server,用這個方法,不單止能制作小爬蟲,最重要的是,你可以隨意改動當中packet的資料,不論是header, data, cookies,所有value都可以隨便改動
 而且,這個工具十分common,幾乎在所有的Linux distribution都已經build-in左,因此係所有工具都沒有安裝時,也可以直接使用
 使用方法:
+> 
+    curl [options...] [url]
+    normal using (google) : curl google.com
+    Post method with data : curl -X POST google.com -d "{data field}:{data value}" 
+    Bring Cookie : curl google.com -b "{cookies field}:{cookies value}"
+    Bring Header : curl google.com -H "{Header field}:{Header value}"
 
-> curl [options...] [url]
-> normal using (google) : curl google.com
-> Post method with data : curl -X POST google.com -d "{data field}:{data value}" 
-> Bring Cookie : curl google.com -b "{cookies field}:{cookies value}"
-> Bring Header : curl google.com -H "{Header field}:{Header value}"
  
  2. Burp Suite
  一個功能強大的web attack tool,基本上就係一隻由你控制既proxy,之要你將你隻bowser既proxy set去你個burp suite,你就可以隨意view入面既data,甚至可以隨意改傳輸中既data(當然啦,最強大既係,呢舊野唔只可以係你個bowser咁做,仲可以係人地既bowser咁做)
@@ -37,12 +38,12 @@
  一個十分強大既自動化SQL injection tool,佢可以直接經由URL,直接測試此網頁能否進行SQL injection(當然..,前提係個URL做緊get request啦),亦都可以經由packet入面既data進行post request attack,成功後更可自動爆庫(這對於任何想要用blind sql injection既同志都係好消息呢)
  使用方法:
 > 
-> normal using (somesite) : sqlmap -u somesite.com?id=5
-> using with packet text file : sqlmap -r packet.txt
-> got all the database (if injectable): sqlmap -u somesite.com?id=5 --dbs
-> got all the table (if injectable): sqlmap -u somesite.com?id=5 -D {DATABASE} --tables
-> got all the columns (if injectable): sqlmap -u somesite.com?id=5 -D {DATABASE} -T {TABLE} --columns
-> got all the data!!(if injectable): sqlmap -u somesite.com?id=5 -D {DATABASE} -T {TABLE} -C {columns1},{column2} --dump
+    normal using (somesite) : sqlmap -u somesite.com?id=5
+    using with packet text file : sqlmap -r packet.txt
+    got all the database (if injectable): sqlmap -u somesite.com?id=5 --dbs
+    got all the table (if injectable): sqlmap -u somesite.com?id=5 -D {DATABASE} --tables
+    got all the columns (if injectable): sqlmap -u somesite.com?id=5 -D {DATABASE} -T {TABLE} --columns
+    got all the data!!(if injectable): sqlmap -u somesite.com?id=5 -D {DATABASE} -T {TABLE} -C {columns1},{column2} --dump
 
  4. Dirb
  一個非常方便的directory traversal tools,而原理就十分簡單...就係buffer force attack,因此,佢同下面既hydra一樣,攻擊既強度,取決於條list既厚度
